@@ -81,8 +81,14 @@ class SystemCog(commands.Cog):
         print(repeat)
         for i in range(int(repeat)):
             user = User(ctx.author.id)
-            item_id, item = items.create_empty_item(tpl)
-            user.add_to_inventory(item)
+            if items.get_info_for_tpl["stackable"]:
+                num = 1
+                if len(args)>=2 and args[1].isdigit():
+                    num = int(args[1])
+                user.add_to_inventory_stackable(tpl, num)
+            else:
+                item_id, item = items.create_empty_item(tpl)
+                user.add_to_inventory(item)
         print("done")
 
 
