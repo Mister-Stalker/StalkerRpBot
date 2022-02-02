@@ -3,6 +3,12 @@
     "nickname": "",
 
     "health": {
+        "head" : {
+        "current" :100, "maximum" : 100
+    }, 
+        "body" : {
+        "current" :100, "maximum" : 100
+    }, 
         "psi_current": 0,
         "psi_maximum": 0,
         "current": 100,
