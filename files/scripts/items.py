@@ -31,7 +31,7 @@ class Item:
 item_mask = {
         "tpl": "",
         "modules": {},
-        "parameters": {},
+        "stats": {},
   }
 
 
