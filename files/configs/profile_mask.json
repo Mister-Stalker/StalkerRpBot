@@ -14,6 +14,14 @@
         "current": 100,
         "maximum": 100
     },
+    "equipment": {
+        "slot_1": {},
+        "slot_2": {},
+        "slot_3": {},
+        "slot_4": {},
+        "slot_5": {},
+        "slot_6": {}
+    },
     "inventory": [
     ],
     "skills": {
