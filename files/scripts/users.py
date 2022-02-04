@@ -25,15 +25,15 @@ class User:
             return
         flag = True
         for i, item in enumerate(self.data["inventory"]):
-            if item["tpl"] = tpl:
+            if item["tpl"] == tpl:
                 item["StackObjectsCount"] += count
                 flag = False
                 self.collection.update_one({"id": self.id}, {'$pull': {"inventory": {"tpl": tpl}}})
                 self.collection.update_one({"id": self.id}, {'$push': {"inventory": item}})
         if flag:
             item = {
-                "tpl": tpl
-                "stackable": True
+                "tpl": tpl,
+                "stackable": True,
                 "StackObjectsCount": count 
             }
             self.collection.update_one({"id": self.id}, {'$pull': {"inventory": {"tpl": tpl}}})
@@ -45,17 +45,17 @@ class User:
             return
         flag = True
         for i, item in enumerate(self.data["inventory"]):
-            if item["tpl"] = tpl:
+            if item["tpl"] == tpl:
                 return item
         return None
     
-    def remove_from_inventory_stackable(self, tpl):
+    def remove_from_inventory_stackable(self, tpl, count):
         self.get_data()
         if not items.get_info_for_tpl(tpl)["stackable"]:
             return
         flag = True
         for i, item in enumerate(self.data["inventory"]):
-            if item["tpl"] = tpl:
+            if item["tpl"] == tpl:
                 item["StackObjectsCount"] -= count
                 if item["StackObjectsCount"] < 0:
                      item["StackObjectsCount"] = 0
@@ -65,8 +65,20 @@ class User:
         if flag:
             return "no obj"
         return "del"
-    
-        
+
+    def get_from_inventory(self, item_id):
+        self.get_data()
+        return list(filter(lambda x: not x["stackable"] and x["_id"] == item_id, self.data["inventory"]))[0]
+
+    def get_from_inventory_tpl(self, tpl):
+        self.get_data()
+        if items.get_info_for_tpl(tpl)["stackable"]:
+            return
+        itemss = []
+        for i, item in enumerate(self.data["inventory"]):
+            if item["tpl"] == tpl:
+                itemss.append(item)
+        return itemss
 
     def add_to_inventory(self, item):
         self.collection.update_one({"id": self.id}, {'$push': {"inventory": item}})

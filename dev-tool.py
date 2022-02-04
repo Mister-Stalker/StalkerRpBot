@@ -1,3 +1,5 @@
+import json
+
 import pymongo
 
 
@@ -16,4 +18,9 @@ def update_db(db_name: str, mask: dict):
     collection = client["stalker_rp"][db_name]
     for item in collection.find({}):
         collection.replace_one({"_id": item["_id"]}, update_item(item, mask), upsert=False)
-        
+
+
+if __name__ == '__main__':
+    mask_ = json.load(open("files/configs/profile_mask.json"))
+    print(mask_)
+    update_db("users", mask_)

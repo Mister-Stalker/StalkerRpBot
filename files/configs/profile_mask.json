@@ -15,6 +15,7 @@
         "maximum": 100
     },
     "equipment": {
+        "active_weapon": "slot_2",
         "slot_1": {},
         "slot_2": {},
         "slot_3": {},

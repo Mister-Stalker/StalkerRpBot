@@ -5,8 +5,8 @@
     "stackable": true,
 
     "parameters" :{
+        "cost": 100
 
-    },
+    }
 
-    "cost": 100
 }

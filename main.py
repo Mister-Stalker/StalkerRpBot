@@ -4,6 +4,7 @@ from discord.ext import commands
 import discord
 bot = commands.Bot(command_prefix='-', case_insensitive=True, intents=discord.Intents.all())
 bot.load_extension('Extensions.system')
+bot.load_extension('Extensions.game_1')
 @bot.event
 async def on_command_error(ctx, error):
 

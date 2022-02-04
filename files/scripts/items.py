@@ -12,6 +12,7 @@ class Item:
         self._id = _id
         client = pymongo.MongoClient("localhost", 27017)
         self.collection = client["stalker_rp"]["items"]
+
         self.data = self.collection.find_one({"_id": self._id})   
 
     def get_data(self):
@@ -20,12 +21,15 @@ class Item:
 
     def update(self, key, value):
         self.collection.update_one({"_id": self._id}, {'$set': {key: value}})
-
-    def add_to_inventory(self, item):
-        self.collection.update_one({"_id": self._id}, {'$push': {"inventory": item}})
         
     def __getitem__(self, item):
         return self.get_data()[item]
+
+    def get_type(self):
+        return associate[self.data["tpl"]]
+
+    def get_configs(self):
+        return get_info_for_tpl(self.data["tpl"])
 
 
 item_mask = {
@@ -38,7 +42,7 @@ item_mask = {
 def create_empty_item(tpl: str):
     item_json = get_info_for_tpl(tpl)
     del item_json["description"]
-    del item_json["cost"]
+    del item_json["parameters"]
     del item_json["name"]
     item_json["tpl"] = tpl
     client = pymongo.MongoClient("localhost", 27017)

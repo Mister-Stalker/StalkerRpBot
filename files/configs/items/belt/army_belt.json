@@ -1,0 +1,20 @@
+{
+    "name": "Армейская разгрузка",
+    "stackable": false,
+    "description": "обычная армейская разгрузка",
+    "type": "belt",
+    "parameters" : {
+        "slots": ["slot_6"],
+        "little_slot": 6,
+        "medium_slot": 4,
+        "big_slot": 2,
+        "artefact_slot": 0,
+        "weight": 2,
+        "cost": 1000
+    },
+    "dat": {
+        "little_slot": [],
+        "medium_slot": [],
+        "big_slot": []
+    }
+}
