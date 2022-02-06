@@ -1,0 +1,25 @@
+{
+    "name": "Армейский бронежелет",
+    "stackable": false,
+    "description": "обычный армейский бронежилет",
+    "type": "belt",
+    "parameters" : {
+        "slots": ["slot_4"],
+        "belt": {
+            "little_slot": 0,
+            "medium_slot": 2,
+            "big_slot": 0,
+            "artefact_slot": 0
+        },
+        "weight": 8,
+        "cost": 1000
+    },
+    "data": {
+        "belt": {
+            "l1": {},
+            "l2": {},
+            "m1": {},
+            "m2": {},
+        }
+    }
+}

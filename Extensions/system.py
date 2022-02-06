@@ -2,6 +2,7 @@ import json
 import os
 import pprint
 
+import bson
 import discord.ext.commands
 from discord.ext import commands
 from files.scripts.users import User
@@ -35,26 +36,6 @@ class SystemCog(commands.Cog):
             return
         data = items.get_info_for_tpl(user.data["inventory"][n]["tpl"])
         await ctx.send(f'{data["name"]}\n{data["description"]}')
-
-    @commands.command()
-    async def inv(self, ctx: discord.ext.commands.context.Context, *args):
-        user = User(ctx.author.id)
-        if len(ctx.message.mentions):
-            user = User(ctx.message.mentions[0].id)
-        if "-j" in args:
-            await ctx.send(user.data["inventory"])
-            return
-        if len(args) == 0:
-            text = "инвентарь:\n"
-            for i, item in enumerate(user.data["inventory"]):
-                item_d = items.get_info_for_tpl(item["tpl"])
-                print(item_d)
-                if item_d["stackable"]:
-                    text += f'{i + 1}: {item_d["name"]} x{item["StackObjectsCount"]}\n'
-                else:
-                    text += f'{i+1}: {item_d["name"]}\n'
-
-            await ctx.send(text)
 
     @commands.command()
     @rp_command
@@ -132,6 +113,11 @@ class SystemCog(commands.Cog):
                 await ctx.send(pprint.pformat(user["inventory"][int(args[0]) - 1]))
             else:
                 await ctx.send(pprint.pformat(items.Item(user["inventory"][int(args[0])-1]["_id"]).data))
+
+    @commands.command()
+    @rp_command
+    async def id(self, ctx: discord.ext.commands.context.Context, *args):
+        await ctx.send(pprint.pformat(items.Item(bson.ObjectId(args[0])).data))
 
 
 def setup(bot):

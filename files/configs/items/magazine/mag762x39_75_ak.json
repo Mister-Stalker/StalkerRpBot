@@ -1,17 +1,17 @@
 {
-    "name": "Магазин 7.62х39 75",
+    "name": "Магазин 7.62х39",
     "stackable": false,
     "description": "Магазин 7.62х39 на 75 для АК",
     "type": "magazine",
     "parameters" : {
-        "ammo": ["7.62x39_fmg"],
+        "ammo": ["762x39_fmg", "762x39_ap"],
         "weight": 0.2,
-        "slots": ["big_slot"],
+        "slots": ["b"],
         "cost": 1000,
         "mag_size": 75
     },
     "data": {
-        "ammo_type": "",
+        "ammo_type": "762x39_fmg",
         "ammo_count": 0
 
     }

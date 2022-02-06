@@ -13,7 +13,8 @@ class Item:
         client = pymongo.MongoClient("localhost", 27017)
         self.collection = client["stalker_rp"]["items"]
 
-        self.data = self.collection.find_one({"_id": self._id})   
+        self.data = self.collection.find_one({"_id": self._id})
+        self.info = self.get_configs()
 
     def get_data(self):
         self.data = self.collection.find_one({"_id": self._id})
@@ -53,9 +54,7 @@ def create_empty_item(tpl: str):
         "_id": r.inserted_id,
         "tpl": tpl,
         "stackable": item_json["stackable"],
-
         "StackObjectsCount": 0
-
     }
     return r.inserted_id, item
 

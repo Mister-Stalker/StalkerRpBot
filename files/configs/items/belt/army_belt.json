@@ -5,16 +5,56 @@
     "type": "belt",
     "parameters" : {
         "slots": ["slot_6"],
-        "little_slot": 6,
-        "medium_slot": 4,
-        "big_slot": 2,
-        "artefact_slot": 0,
+        "belt": {
+            "little_slot": 6,
+            "medium_slot": 4,
+            "big_slot": 2,
+            "artefact_slot": 0,
+            "associate_keys": {
+                "l1": "l1",
+                "l2": "l2",
+                "l3": "l3",
+                "l4": "l4",
+                "l5": "l5",
+                "l6": "l6",
+                "m1": "m1",
+                "m2": "m2",
+                "m3": "m3",
+                "m4": "m4",
+                "b1": "b1",
+                "b2": "b2",
+                "м1": "l1",
+                "м2": "l2",
+                "м3": "l3",
+                "м4": "l4",
+                "м5": "l5",
+                "м6": "l6",
+                "с1": "m1",
+                "с2": "m2",
+                "с3": "m3",
+                "с4": "m4",
+                "б1": "b1",
+                "б2": "b2"
+            }
+
+        },
         "weight": 2,
         "cost": 1000
     },
-    "dat": {
-        "little_slot": [],
-        "medium_slot": [],
-        "big_slot": []
+    "data": {
+        "belt": {
+            "l1": {},
+            "l2": {},
+            "l3": {},
+            "l4": {},
+            "l5": {},
+            "l6": {},
+            "m1": {},
+            "m2": {},
+            "m3": {},
+            "m4": {},
+            "b1": {},
+            "b2": {}
+        }
     }
 }

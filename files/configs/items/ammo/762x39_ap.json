@@ -1,0 +1,14 @@
+{
+    "name": "патрон 7.62х39 БП",
+    "description": "патрон 7.62х39 с бронебойной пулей пулей, индекс грау 7Н23",
+    "type": "ammo",
+    "stackable": true,
+
+    "parameters" :{
+        "cost": 100,
+        "damage": {
+            "armor" : 2,
+            "body": 1
+        }
+    }
+}

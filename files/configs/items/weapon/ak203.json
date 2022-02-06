@@ -4,7 +4,7 @@
     "description": "Автомат Калашникова \"двухсотой\" серии",
     "type": "weapon",
     "parameters" : {
-        "ammo": ["7.62x39_fmg"],
+        "ammo": ["7.62x39_fmg", "7.62x39_ap"],
         "weight": 3.8,
         "slots": ["slot_2", "slot3"],
         "magazines": ["mag762x39_30_ak", "mag762x39_75_ak"],
