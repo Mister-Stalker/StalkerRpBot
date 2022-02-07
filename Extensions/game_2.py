@@ -62,7 +62,71 @@ class GameCog2(commands.Cog):
                                   [f'\nOption Nr° {o}' for o in select_menu.values]),
                               color=discord.Color.random())
         await interaction.respond(embed=embed)
+        
+        
+    async def equip_gui_mag(self, ctx, interaction):
+        user = User(ctx.author.id)
+        select_menu_list = []
+        flag = False
+        for i, item_obj in enumerate(user["inventory"]):
+            if not item_obj["stackable"]:
+                item = Item(item_obj["_id"])
+                if item.info["type"] in ["magazine"]:
+                    flag = True
+                    select_menu_list.append(SelectOption(label=item.info["name"], value=str(i),
+                                                         description=f"{item['data']['ammo_count']}/{item.info['parameters']['mag_size']}, {get_info_for_tpl(item['data']['ammo_type'])['name']}"))
+                
+        if not flag:
+            return
+        
+        sm = SelectMenu(custom_id='_select_it', options=select_menu_list,
+                        placeholder='Select some Options', max_values=1)
+        msg_with_menu = await interaction.respond('выбирете предмет который хотите экипировать', components=[[sm], [
+                            Button(label="Hey i\'m a red Button", custom_id="red", style=ButtonStyle.red)]])
 
+        def check_selection(i: discord.Interaction, select_menu):
+            return i.author == ctx.author and i.message == msg_with_menu
+        interaction_2, select_menu = await self.bot.wait_for('selection_select', check=check_selection)
+        mag_id = select_menu.values[0]
+        user = User(interaction_2.author.id)
+        mag_obj = user["inventory"][mag_id]
+        mag = items.Item(mag_obj["_tpl"])
+        
+        
+        
+        
+        
+        
+        
+    async def equip_gui_v2(self, ctx):
+        
+        msg_with_buttons = await ctx.send('select the type of item', components=[[
+            Button(label="Оружие",
+                   custom_id="weapon",
+                   style=ButtonStyle.green),
+            Button(label="Броня",
+                   custom_id="armor",
+                   style=ButtonStyle.green),
+            Button(label="Магазин",
+                   custom_id="mag",
+                   style=ButtonStyle.green),
+            Button(label="Разгрузка",
+                   custom_id="belt",
+                   style=ButtonStyle.green)
+        ]])
+
+        def check_button(i, *args):
+            return i.author == ctx.author and i.message == msg_with_buttons
+
+        interaction, button = await self.bot.wait_for('button_click', check=check_button)
+        
+        if button.custom_id == "mag":
+            equip_gui_mag(ctx, interaction)
+            
+        
+        
+        
+        
     async def equip_gui(self, ctx):
         user = User(ctx.author.id)
         select_menu_list = []
