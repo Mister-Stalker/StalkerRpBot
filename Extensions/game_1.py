@@ -1,3 +1,9 @@
+"""
+часть бота которая отвечает за команды без граф интерфейса (экипировка и инвентарь)
+
+"""
+
+
 import pprint
 import discord.ext
 from discord.ext import commands
@@ -155,6 +161,7 @@ class GameCog1(commands.Cog):
     @rp_command
     async def g_equip(self, ctx: discord.ext.commands.context.Context, *args):
         pass
+
     @commands.command(aliases=["оружие"])
     @benchmark
     @rp_command

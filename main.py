@@ -6,6 +6,7 @@ bot = commands.Bot(command_prefix=commands.when_mentioned_or('-'), case_insensit
 bot.load_extension('Extensions.system')
 bot.load_extension('Extensions.game_1')
 bot.load_extension('Extensions.game_2')
+bot.load_extension('Extensions.game_3')
 
 
 @bot.event
@@ -23,6 +24,8 @@ async def on_command_error(ctx, error):
 
 @bot.event
 async def on_ready():
+    for channel in bot.get_guild(935971436131156088).channels:
+        print(channel, channel.id)
     print("бот запущен и готов к работе")
 
 
@@ -41,6 +44,5 @@ async def pinggg(ctx, user, num: int, *, arg=""):
         await ctx.send(f"{user} {arg}")
 
 
-"""https://discord.gg/fpCVqBQK"""
 while True:
     bot.run(json.load(open("bot_configs.json"))["token"])

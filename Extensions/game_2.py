@@ -1,3 +1,9 @@
+"""
+часть бота которая отвечает за команды с графическим интерфейсом (экипировка)
+
+"""
+
+
 import discord.ext
 from discord.ext import commands
 from discord import Button, ButtonStyle, SelectMenu, SelectOption
@@ -62,8 +68,7 @@ class GameCog2(commands.Cog):
                                   [f'\nOption Nr° {o}' for o in select_menu.values]),
                               color=discord.Color.random())
         await interaction.respond(embed=embed)
-        
-        
+
     async def equip_gui_mag(self, ctx, interaction):
         user = User(ctx.author.id)
         select_menu_list = []
@@ -93,11 +98,6 @@ class GameCog2(commands.Cog):
         mag = items.Item(mag_obj["_tpl"])
         
         
-        
-        
-        
-        
-        
     async def equip_gui_v2(self, ctx):
         
         msg_with_buttons = await ctx.send('select the type of item', components=[[
@@ -121,12 +121,8 @@ class GameCog2(commands.Cog):
         interaction, button = await self.bot.wait_for('button_click', check=check_button)
         
         if button.custom_id == "mag":
-            equip_gui_mag(ctx, interaction)
-            
-        
-        
-        
-        
+            await self.equip_gui_mag(ctx, interaction)
+
     async def equip_gui(self, ctx):
         user = User(ctx.author.id)
         select_menu_list = []
