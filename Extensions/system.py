@@ -50,7 +50,7 @@ class SystemCog(commands.Cog):
     @commands.command()
     @get_db_for_commands_db("users")
     async def new(self, ctx: discord.ext.commands.context.Context, db=None, *args):
-        new_user_json = json.load(open(str(os.getcwd()) + f"\\server\\profile_mask.json"))
+        new_user_json = json.load(open(str(os.getcwd()) + f"\\files\\configs\\profile_mask.json"))
         new_user_json["id"] = ctx.author.id
         new_user_json["nickname"] = ctx.author.nick
         res = db.insert_one(new_user_json)

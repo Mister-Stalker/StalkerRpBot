@@ -13,6 +13,7 @@ import files.scripts.items as items
 from files.scripts.item_classes import *
 from files.scripts.locations import create_channel, Locations
 
+
 class GameCog3(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
@@ -28,8 +29,8 @@ class GameCog3(commands.Cog):
     @commands.command(aliases=["ac"])
     async def add_channel(self, ctx: discord.ext.commands.Context, name=None, rp="rp"):
         create_channel(ctx.channel.id, name, rp)
-        l = Locations(ctx.channel.id)
-        print(l.info)
+        location = Locations(ctx.channel.id)
+        print(location.info)
 
 
 def setup(bot):

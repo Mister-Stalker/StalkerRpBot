@@ -7,7 +7,7 @@ bot.load_extension('Extensions.system')
 bot.load_extension('Extensions.game_1')
 bot.load_extension('Extensions.game_2')
 bot.load_extension('Extensions.game_3')
-
+bot.load_extension('Extensions.game_4')
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -24,8 +24,8 @@ async def on_command_error(ctx, error):
 
 @bot.event
 async def on_ready():
-    for channel in bot.get_guild(935971436131156088).channels:
-        print(channel, channel.id)
+    # for channel in bot.get_guild(935971436131156088).channels:
+    #     print(channel, channel.id)
     print("бот запущен и готов к работе")
 
 
