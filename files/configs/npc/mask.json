@@ -1,0 +1,10 @@
+{
+    "tpl": "",
+    "health": {
+        "current": 1000,
+        "max": 1000
+    },
+    "inventory": [],
+    "is_alive": True
+
+}
