@@ -2,6 +2,7 @@
 часть бота которая отвечает за обработку событий on_message (для нпс)
 
 """
+import random
 
 import discord.ext
 from discord.ext import commands
@@ -20,11 +21,20 @@ class GameCog3(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, mess: discord.Message):
-        print(mess, '\n', type(mess))
+        print("[DEBUG] on message from GameCog3:\n", mess, '\n', type(mess))
         if mess.author.bot:
             return
         if mess.content == "...":
             await mess.channel.send("...")
+        location = Locations(_id=mess.channel.id)
+        if not location.rp:
+            return
+        r = random.randint(0, 100)
+        if mess.content[:3] == "npc" or r < 10:
+            # npc attack or do
+            pass
+            print("npc_attack")
+
 
     @commands.command(aliases=["ac"])
     async def add_channel(self, ctx: discord.ext.commands.Context, name=None, rp="rp"):

@@ -1,7 +1,7 @@
 import pymongo
 import functools
 import time
-from .users import User
+from .users import Player
 
 
 def benchmark(func):
@@ -27,7 +27,7 @@ def get_db_for_commands(func):
 def rp_command(func):
     @functools.wraps(func)
     async def wrapper(self, ctx, *args, **kwargs):
-        user = User(ctx.author.id)
+        user = Player(ctx.author.id)
         # print("decor", self, ctx, args, kwargs, sep='\n')
         # print(user.is_reg)
         if not user.is_reg:

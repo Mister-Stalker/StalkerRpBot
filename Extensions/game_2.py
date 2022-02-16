@@ -11,6 +11,7 @@ from discord import Button, ButtonStyle, SelectMenu, SelectOption
 import pprint
 from files.scripts.decorators import benchmark, rp_command, rp_command_ping
 import files.scripts.items as items
+from files.scripts.users import Player
 from files.scripts.item_classes import *
 
 
@@ -70,10 +71,10 @@ class GameCog2(commands.Cog):
         await interaction.respond(embed=embed)
 
     async def equip_gui_mag(self, ctx, interaction):
-        user = User(ctx.author.id)
+        player = Player(ctx.author.id)
         select_menu_list = []
         flag = False
-        for i, item_obj in enumerate(user["inventory"]):
+        for i, item_obj in enumerate(player["inventory"]):
             if not item_obj["stackable"]:
                 item = Item(item_obj["_id"])
                 if item.info["type"] in ["magazine"]:
@@ -93,8 +94,8 @@ class GameCog2(commands.Cog):
             return i.author == ctx.author and i.message == msg_with_menu
         interaction_2, select_menu = await self.bot.wait_for('selection_select', check=check_selection)
         mag_id = select_menu.values[0]
-        user = User(interaction_2.author.id)
-        mag_obj = user["inventory"][mag_id]
+        player = Player(interaction_2.author.id)
+        mag_obj = player["inventory"][mag_id]
         mag = items.Item(mag_obj["_tpl"])
         
         
@@ -124,9 +125,9 @@ class GameCog2(commands.Cog):
             await self.equip_gui_mag(ctx, interaction)
 
     async def equip_gui(self, ctx):
-        user = User(ctx.author.id)
+        player = Player(ctx.author.id)
         select_menu_list = []
-        for i, item_obj in enumerate(user["inventory"]):
+        for i, item_obj in enumerate(player["inventory"]):
             if not item_obj["stackable"]:
                 item = Item(item_obj["_id"])
                 if item.info["type"] in ["magazine"]:

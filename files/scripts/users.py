@@ -5,11 +5,11 @@ from bson.objectid import ObjectId
 from files.scripts import items
 
 
-class User:
+class Player:
     def __init__(self, discord_id: int):
         self.id = discord_id
         client = pymongo.MongoClient("localhost", 27017)
-        self.collection = client["stalker_rp"]["users"]
+        self.collection = client["stalker_rp"]["players"]
         self.data = self.collection.find_one({"id": self.id})
         self.is_reg = bool(self.data)
 

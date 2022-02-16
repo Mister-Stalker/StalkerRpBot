@@ -1,17 +1,17 @@
 from files.scripts.items import Item, get_info_for_tpl
-from files.scripts.users import User
+from files.scripts.users import Player
 from pprint import pformat
 
 
 class Weapons(Item):
-    def __init__(self, user: User, _id):
+    def __init__(self, player: Player, _id):
         super().__init__(_id)
-        self.user = user
+        self.player = player
         self.info = self.get_configs()
 
-    def reload(self, flag="", *args):
+    def reload(self, flag="", *_):
         if not flag:
-            belt = Belts(user=self.user)
+            belt = Belts(player=self.player)
             magazine = belt.reload(self["tpl"], self["data"]["magazine"])
             if magazine == "no mag":
                 return "no mag"
@@ -20,7 +20,7 @@ class Weapons(Item):
                 return "done"
 
     def reload_r_slot(self, slot):
-        belt = Belts(user=self.user)
+        belt = Belts(player=self.player)
 
         magazine = belt.reload_slot(self["tpl"], self["data"]["magazine"], slot)
         if magazine == "no mag":
@@ -30,21 +30,21 @@ class Weapons(Item):
             return "done"
 
     def reload_inv_slot(self, slot):
-        magazine = self.user["inventory"][slot]
+        magazine = self.player["inventory"][slot]
         if magazine["tpl"] not in self.info["parameters"]["magazines"]:
             return "no mag"
         else:
-            self.user.remove_from_inventory(magazine["_id"])
+            self.player.remove_from_inventory(magazine["_id"])
             self.update("data.magazine", magazine)
             return "done"
 
 
 class Belts(Item):
-    def __init__(self, user: User):
-        belt = user["equipment"]["slot_6"]
+    def __init__(self, player: Player):
+        belt = player["equipment"]["slot_6"]
         if not belt:
-            belt = user["equipment"]["slot_4"]
-        self.user = user
+            belt = player["equipment"]["slot_4"]
+        self.user = player
         print(f"[DEBUG]: Belts class init\n    belt_obj: {pformat(belt)}")
         super().__init__(belt["_id"])
 
@@ -90,16 +90,16 @@ class Belts(Item):
 
 
 class Magazines(Item):
-    def __init__(self, user: User, _id):
+    def __init__(self, player: Player, _id):
         super().__init__(_id)
-        self.user = user
+        self.player = player
         self.info = self.get_configs()
         print(f"[DEBUG]: Mag class init\n    mag_obj: {pformat(self.data)}")
 
     def reload(self, ammo_inv_id=None):
         if ammo_inv_id is None or ammo_inv_id == -1:
             ammo_old = [self["data"]["ammo_type"], self["data"]["ammo_count"]]
-            ammo_obj = self.user.get_from_inventory_stackable(ammo_old[0])
+            ammo_obj = self.player.get_from_inventory_stackable(ammo_old[0])
             print(ammo_obj)
             if ammo_obj is None:
                 return "no ammo"
@@ -112,28 +112,29 @@ class Magazines(Item):
                 reload_ammo_count = ammo_obj["StackObjectsCount"]
             self["data"]["ammo_count"] = self["data"]["ammo_count"] + reload_ammo_count
             self.update("data.ammo_count", self["data"]["ammo_count"] + reload_ammo_count)
-            self.user.remove_from_inventory_stackable(ammo_obj["tpl"], reload_ammo_count)
+            self.player.remove_from_inventory_stackable(ammo_obj["tpl"], reload_ammo_count)
             return "done"
 
         else:
-            ammo_obj = self.user["inventory"][ammo_inv_id]
+            ammo_obj = self.player["inventory"][ammo_inv_id]
             print(ammo_obj)
             if ammo_obj["tpl"] in self.info["parameters"]["ammo"]:
                 if ammo_obj["StackObjectsCount"] > 0:
                     ammo_old = [self["data"]["ammo_type"], self["data"]["ammo_count"]]
-                    self.user.add_to_inventory_stackable(*ammo_old)
+                    self.player.add_to_inventory_stackable(*ammo_old)
                     if ammo_obj["StackObjectsCount"] < self.info["parameters"]["mag_size"]:
                         self["data"]["ammo_type"] = ammo_obj["tpl"]
                         self["data"]["ammo_count"] = ammo_obj["StackObjectsCount"]
                         self.update("data.ammo_count", ammo_obj["StackObjectsCount"])
                         self.update("data.ammo_type", ammo_obj["tpl"])
-                        self.user.remove_from_inventory_stackable(ammo_obj["tpl"], ammo_obj["StackObjectsCount"])
+                        self.player.remove_from_inventory_stackable(ammo_obj["tpl"], ammo_obj["StackObjectsCount"])
                     else:
                         self["data"]["ammo_type"] = ammo_obj["tpl"]
                         self["data"]["ammo_count"] = self.info["parameters"]["mag_size"]
                         self.update("data.ammo_count", self.info["parameters"]["mag_size"])
                         self.update("data.ammo_type", ammo_obj["tpl"])
-                        self.user.remove_from_inventory_stackable(self["data"]["ammo_type"], self["data"]["ammo_count"])
+                        self.player.remove_from_inventory_stackable(self["data"]["ammo_type"],
+                                                                    self["data"]["ammo_count"])
                 else:
                     return "no ammo"
             else:
