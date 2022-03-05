@@ -1,8 +1,32 @@
 {
     "tpl": "",
     "health": {
-        "current": 1000,
-        "max": 1000
+        "head": {
+            "current": 0,
+            "max": 0
+        },
+        "limb1": {
+            "current": 0,
+            "max": 0
+        },
+        "limb2": {
+            "current": 0,
+            "max": 0
+        },
+        "limb3": {
+            "current": 0,
+            "max": 0
+        },
+        "limb4": {
+            "current": 0,
+            "max": 0
+        },
+        "body": {
+            "current": 0,
+            "max": 0
+        }
+
+
     },
     "inventory": [],
     "is_alive": true,
