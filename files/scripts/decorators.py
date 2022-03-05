@@ -1,7 +1,7 @@
 import pymongo
 import functools
 import time
-from .users import Player
+from files.scripts.users import Player
 
 
 def benchmark(func):
@@ -33,16 +33,16 @@ def rp_command(func):
         if not user.is_reg:
             await ctx.send(f'{ctx.author.mention} не является участником')
             return
-        await func(self, ctx,*args, **kwargs)
+        await func(self, ctx, *args, **kwargs)
     return wrapper
 
 
 def rp_command_ping(func):
     @functools.wraps(func)
     async def wrapper(self, ctx, *args, **kwargs):
-        user = User(ctx.author.id)
+        user = Player(ctx.author.id)
         if len(ctx.message.mentions):
-            user = User(ctx.message.mentions[0].id)
+            user = Player(ctx.message.mentions[0].id)
             if not user.is_reg:
                 await ctx.send(f'{ctx.message.mentions[0].mention} не является участником')
                 return

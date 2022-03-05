@@ -1,1 +1,18 @@
-{"name": "test_2", "id": "935973369902403635", "rp": "rp", "parameters": {"dead_time": 86400, "npc": {"limit": 5, "npc_list": []}}, "data": {"npc": [], "loot": [], "dead_players": []}}
+{
+    "data": {
+        "npc": [],
+        "loot": [],
+        "dead_players": []
+    },
+    "id": "935973369902403635",
+    "name": "test_2",
+    "parameters": {
+        "dead_time": 86400,
+        "npc": {
+            "limit": 5,
+            "npc_list": []
+        }
+    },
+    "battle": {},
+    "rp": "rp"
+}

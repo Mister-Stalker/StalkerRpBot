@@ -1,0 +1,63 @@
+{
+    "id": 0,
+    "nickname": "",
+
+    "health": {
+        "exhaustion": {
+            "current": 0,
+            "max": 500
+        },
+        "head": {
+            "current": 150,
+            "max": 150
+        },
+        "right_arm": {
+            "current": 75,
+            "max": 75
+        },
+        "left_arm": {
+            "current": 75,
+            "max": 75
+        },
+        "right_leg": {
+            "current": 100,
+            "max": 100
+        },
+        "left_leg": {
+            "current": 100,
+            "max": 100
+        },
+        "body": {
+            "current": 200,
+            "max": 200
+        },
+
+        "psi_current": 100,
+        "psi_maximum": 100
+    },
+    "equipment": {
+        "active_weapon": "slot_2",
+        "slot_1": {},
+        "slot_2": {},
+        "slot_3": {},
+        "slot_4": {},
+        "slot_5": {},
+        "slot_6": {},
+        "slot_7": {}
+    },
+    "inventory": [
+    ],
+    "skills": {
+        "assault": 0,
+        "shotgun": 0,
+        "LMG": 0,
+        "SMG": 0,
+        "HMG": 0,
+        "sniper": 0,
+        "pistol": 0
+    },
+    "states": {
+    },
+    "location": "no_rp",
+    "is_alive": true
+}

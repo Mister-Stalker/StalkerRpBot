@@ -1,8 +1,11 @@
 import json
 import os
+import random
+
 import pymongo
 from bson.objectid import ObjectId
 from files.scripts import items
+
 
 class NPCBase:
     def __init__(self, key, _id, db):
@@ -41,7 +44,7 @@ class NPCBase:
     def get_from_inventory_stackable(self, tpl) -> dict:
         self.get_data()
         if not items.get_info_for_tpl(tpl)["stackable"]:
-            return
+            return {}
         for i, item in enumerate(self.data["inventory"]):
             if item["tpl"] == tpl:
                 return item
@@ -50,7 +53,7 @@ class NPCBase:
     def remove_from_inventory_stackable(self, tpl, count) -> bool:
         self.get_data()
         if not items.get_info_for_tpl(tpl)["stackable"]:
-            return
+            return False
         flag = True
         print("remove", tpl, count)
         for i, item in enumerate(self.data["inventory"]):
@@ -93,19 +96,49 @@ class NPC(NPCBase):
         self._id = _id
         super().__init__("_id",  ObjectId(_id), "npc")
         self.config = self._get_config(self.data["tpl"])
+
+    @staticmethod
+    def create_new_npc(tpl):
+        npc_json = json.load(open(os.getcwd()+fr"files/configs/npc/npc/{tpl}.json"))
+        npc_json["health"]["max"] = random.randint(npc_json["health"]["max"][0], npc_json["health"]["max"][1])
+        npc_json["health"]["min"] = npc_json["health"]["max"]
+        inv = []
+        for item in random.choice(npc_json["loot"]):
+            if type(item) == list:
+                inv.append(
+                    {
+                        "tpl": item[0],
+                        "stackable": True,
+                        "StackObjectCount": random.randint(item[1][0], item[1][1])
+                    }
+                )
+            else:
+                inv.append(items.create_empty_item(item)[1])
+        del npc_json["loot"]
+
+        client = pymongo.MongoClient("localhost", 27017)
+        collection = client["stalker_rp"]["npc"]
+        collection.insert_one(npc_json)
+
     @staticmethod
     def _get_config(name):
         d = json.load(open(os.getcwd()+fr"files/configs/npc/npc/{name}.json"))
+        return d
+
+    def gun_damage(self, ammo, weapon_tpl, scope_arg):
+        print(f"[DEBUG]: npc damage. ammo: {ammo}, weapon: {weapon_tpl}, scope_arg: {scope_arg}")
+        pass
     
     
-class QNPC(NPCBase):
-    def __init__(self, name):
-        self.name = name
-        super().__init__("name", name, "npc")
-        self.config = self._get_config(self.name)
+class QuestNPC(NPCBase):
+    def __init__(self, tpl):
+        self.tpl = tpl
+        super().__init__("tpl", tpl, "npc")
+        self.config = self._get_config(self.tpl)
         
     @staticmethod
     def _get_config(name):
-        d = json.load(open(os.getcwd()+fr"files/configs/npc/qnpc/{name}.json"))
+        d = json.load(open(os.getcwd()+fr"files/configs/npc/quest_npc/{name}.json"))
+        return d
     
         

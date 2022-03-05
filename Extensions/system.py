@@ -48,9 +48,9 @@ class SystemCog(commands.Cog):
         await ctx.send(f"""id: {player["id"]}\nhealth: {player["health"]["current"]}/{player["health"]["maximum"]}""")
 
     @commands.command()
-    @get_db_for_commands_db("users")
+    @get_db_for_commands_db("players")
     async def new(self, ctx: discord.ext.commands.context.Context, db=None, *args):
-        new_user_json = json.load(open(str(os.getcwd()) + f"\\files\\configs\\profile_mask.json"))
+        new_user_json = json.load(open(str(os.getcwd()) + f"\\files\\configs\\players\\profile_mask.json"))
         new_user_json["id"] = ctx.author.id
         new_user_json["nickname"] = ctx.author.nick
         res = db.insert_one(new_user_json)

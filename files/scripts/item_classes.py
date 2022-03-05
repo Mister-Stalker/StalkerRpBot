@@ -1,13 +1,55 @@
+import asyncio
+import random
+
 from files.scripts.items import Item, get_info_for_tpl
 from files.scripts.users import Player
+from files.scripts.functions import rand
 from pprint import pformat
 
 
 class Weapons(Item):
-    def __init__(self, player: Player, _id):
-        super().__init__(_id)
+    def __init__(self, player: Player, _id=None):
         self.player = player
+        if _id is None:
+            _id = self.player["equipment"][self.player["equipment"]["active_weapon"]]["_id"]
+        super().__init__(_id)
         self.info = self.get_configs()
+        self.type = self.info["parameters"]["type"]
+
+    async def shoot(self, iterator, is_scope: bool):
+        player_skill = self.player["skills"][self.type]
+        player_k = 0.8
+
+        if player_skill > 1000:
+            player_k = 1
+        elif player_skill > 100:
+            player_k = 0.9
+
+        if self["data"]["misfire"]:
+            return "misfire", False
+        scope_k = 0.4
+        if is_scope:
+            scope_k = 1  # Will be added in the future...
+        weather_k = 1  # Will be added in the future...
+        weapon_k = self.info["parameters"]["accuracy"]
+        print(f"[DEBUG] weapon shoot: player_k={player_k}, scope_k={scope_k}, weather_k={weather_k}, "
+              f"weapon_k={weapon_k}", "="*25)
+
+        mag = Magazines(self.player, self["data"]["magazine"]["_id"])
+        ammo_count = mag["data"]["ammo_count"]
+
+        if ammo_count <= 0:
+            return "no_ammo", False
+
+        mag.update("data.ammo_count", ammo_count-1)
+
+        dispersion = self.info["parameters"]["dispersion"]*iterator
+        dispersion = min(dispersion, self.info["parameters"]["dispersion"]*5)
+
+        if not rand(player_k * scope_k * weapon_k * weather_k - dispersion): 
+            return False, False
+        else:
+            return mag["data"]["ammo_type"], self.info["parameters"]["damage_k"]
 
     def reload(self, flag="", *_):
         if not flag:
@@ -140,3 +182,31 @@ class Magazines(Item):
             else:
                 return "incorrect ammo"
             return "done"
+
+
+class Armor(Item):
+    def __init__(self, player: Player):
+        armor = player["equipment"]["slot_4"]
+        if not armor:
+            armor = player["equipment"]["slot_4"]
+        self.player = player
+        print(f"[DEBUG]: Belts class init\n    belt_obj: {pformat(armor)}")
+        super().__init__(armor["_id"])
+
+        self.info = self.get_configs()
+
+    def damage(self, body_part, ammo_tpl):
+        ammo_info = get_info_for_tpl(tpl=ammo_tpl)
+        if ammo_info["parameters"]["damage"]["class"] >= self.info["parameters"]["armor"][body_part]["class"]:
+            cond = self["data"]["condition"]
+            self.update("data.condition", cond - ammo_info["parameters"]["damage"]["armor_2"])
+            dmg = random.randint(ammo_info["parameters"]["damage"]["body"][0],
+                                 ammo_info["parameters"]["damage"]["body"][1])
+            c = self.info["parameters"]["armor"][body_part]["coefficient"]
+
+            k = c - (c * (1 - cond) / 2)
+
+            dmg *= k
+            return dmg
+        else:
+            return 0

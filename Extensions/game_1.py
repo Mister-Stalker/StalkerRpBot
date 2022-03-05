@@ -25,7 +25,7 @@ class GameCog1(commands.Cog):
         if len(ctx.message.mentions):
             player = Player(ctx.message.mentions[0].id)
         if "-j" in args:
-            await ctx.send(player.data["inventory"])
+            await ctx.send(pformat(player.data["inventory"]))
             return
         if "-s" in args:
             text = "инвентарь:\n"
@@ -142,7 +142,7 @@ class GameCog1(commands.Cog):
                         player.remove_from_inventory(item_obj["_id"])
                     else:
                         pass
-        elif item.get_type() in ["belt", "weapon"]:
+        elif item.get_type() in ["belt", "weapon","armor"]:
             if len(args) == 1:
                 slot = item.get_configs()["parameters"]["slots"][0]
             elif not args[1].isdigit():

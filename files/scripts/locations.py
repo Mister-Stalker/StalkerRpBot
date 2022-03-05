@@ -15,6 +15,7 @@ def create_channel(_id, name=None, rp="no_rp"):
     loc_json["id"] = _id
     loc_json["name"] = name
     loc_json["rp"] = rp
+    loc_json["battle"] = {}
     json.dump(loc_json, open(os.getcwd() + f"\\files\\configs\\locations\\configs\\{name}.json", "w", encoding="utf-8"))
     tree = json.load(open(os.getcwd() + f"\\files\\configs\\locations\\location_tree.json", encoding="utf-8"))
     if not name in tree.keys():
@@ -60,6 +61,9 @@ class Locations:
 
     def get_tree_channels(self) -> list:
         return json.load(open(os.getcwd() + f"\\files\\configs\\locations\\location_tree.json", encoding="utf-8"))[self.name]
+
+    def respawn_npc(self):
+        pass
 
 
 def get_info_for_name(name: str) -> dict:

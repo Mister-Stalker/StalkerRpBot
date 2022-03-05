@@ -26,6 +26,11 @@ class Item:
     def __getitem__(self, item):
         return self.get_data()[item]
 
+    @staticmethod
+    def get_info_for_tpl(tpl):
+        data = json.load(open(os.getcwd() + f"\\files\\configs\\items\\{associate[tpl]}\\{tpl}.json", encoding="utf-8"))
+        return data
+
     def get_type(self):
         return associate[self.data["tpl"]]
 

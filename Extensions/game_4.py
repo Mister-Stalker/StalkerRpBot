@@ -25,7 +25,7 @@ class GameCog3(commands.Cog):
     @commands.command(aliases=["перейти"])
     @rp_command
     async def go(self, ctx: discord.ext.commands.Context):
-        user = User(ctx.author.id)
+        user = Player(ctx.author.id)
         location = Locations(ctx.channel.id)
         tree = location.get_tree_channels()
         print(tree, location.rp)
@@ -57,6 +57,16 @@ class GameCog3(commands.Cog):
 
         new_channel = self.bot.get_channel(int(new_location.info["id"]))
         await new_channel.set_permissions(ctx.author, view_channel=True)
+
+    @commands.command(aliases=["a"])
+    @rp_command
+    async def attack(self, ctx: discord.ext.commands.Context, *args):
+        print("attack")
+        opponent = Player(ctx.message.mentions[0].id)
+        player = Player(ctx.author.id)
+        r = await player.attack(opponent, shoot_type="2")
+        print("attack r:", r)
+
 
 
 def setup(bot):

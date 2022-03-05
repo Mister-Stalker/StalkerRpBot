@@ -7,8 +7,10 @@
     "parameters" :{
         "cost": 100,
         "damage": {
-            "armor" : 2,
-            "body": 1
+            "armor_1" : 0.02,
+            "armor_2" : 0.05,
+            "body": [100, 125],
+            "class": 4
         }
     }
 }

@@ -1,0 +1,74 @@
+{
+    "tpl": "boar_1",
+    "health": {
+        "head": {
+            "current": 0,
+            "max": [
+                100,
+                150
+            ]
+        },
+        "limb1": {
+            "current": 0,
+            "max": [
+                40,
+                60
+            ]
+        },
+        "limb2": {
+            "current": 0,
+            "max": [
+                40,
+                60
+            ]
+        },
+        "limb3": {
+            "current": 0,
+            "max": [
+                40,
+                60
+            ]
+        },
+        "limb4": {
+            "current": 0,
+            "max": [
+                40,
+                60
+            ]
+        },
+        "body": {
+            "current": 0,
+            "max": [
+                150,
+                200
+            ]
+        }
+    },
+    "type": "dog",
+    "relations": {
+        "enemy": ["dog"]
+    },
+
+    "inventory": [],
+    "is_alive": true,
+    "loot": [
+        [
+            "ak_203",
+            ["762x39_fmg", [30, 100]]
+        ],
+        [
+            "ak_103",
+            ["762x39_fmg", [30, 100]]
+        ]
+    ],
+    "actions": {
+        "dog_attack": {
+            "damage": 100
+        },
+        "dog_strong_attack": {
+            "damage": 200
+        },
+        "dog_run": {
+        }
+    }
+}

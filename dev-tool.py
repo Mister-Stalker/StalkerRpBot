@@ -21,6 +21,6 @@ def update_db(db_name: str, mask: dict):
 
 
 if __name__ == '__main__':
-    mask_ = json.load(open("files/configs/profile_mask.json"))
+    mask_ = json.load(open("files/configs/players/profile_mask.json"))
     print(mask_)
     update_db("users", mask_)
