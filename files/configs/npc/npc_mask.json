@@ -5,6 +5,7 @@
         "max": 1000
     },
     "inventory": [],
-    "is_alive": true
-
+    "is_alive": true,
+    "last_action_time": 0,
+    "next_action_time" : 0
 }
