@@ -4,10 +4,15 @@ import pymongo
 from bson.objectid import ObjectId
 import json
 import os
-from files.configs.items.associate_type import associate
+
+
+
+class ErrorItemType(Exception):
+    pass
 
 
 class Item:
+    associate = {}
     def __init__(self, _id: ObjectId):
         self._id = _id
         client = pymongo.MongoClient("localhost", 27017)
@@ -25,11 +30,27 @@ class Item:
         
     def __getitem__(self, item):
         return self.get_data()[item]
-
+    
     @staticmethod
-    def get_info_for_tpl(tpl):
-        data = json.load(open(os.getcwd() + f"\\files\\configs\\items\\{associate[tpl]}\\{tpl}.json", encoding="utf-8"))
+    def get_info_for_tpl(tpl: str):
+        item_type = None
+        if tpl in Item.associate.keys():
+            item_type = associate[tpl]
+        else:
+            for folder in os.listdir(os.getcwd() + f"\\files\\configs\\items\\"):
+                if tpl + ".py" in os.listdir(os.getcwd() + f"\\files\\configs\\items\\{folder}"):
+                    item_type = folder
+            if item_type is None:
+                raise ErrorItemType
+
+            Item.associate[tpl] = item_type
+        data = json.load(open(os.getcwd() + f"\\files\\configs\\items\\{item_type}\\{tpl}.json", encoding="utf-8"))
         return data
+    
+    # @staticmethod
+    # def get_info_for_tpl(tpl):
+    #     data = json.load(open(os.getcwd() + f"\\files\\configs\\items\\{associate[tpl]}\\{tpl}.json", encoding="utf-8"))
+    #     return data
 
     def get_type(self):
         return associate[self.data["tpl"]]
@@ -65,6 +86,5 @@ def create_empty_item(tpl: str):
 
 
 def get_info_for_tpl(tpl):
-    data = json.load(open(os.getcwd()+f"\\files\\configs\\items\\{associate[tpl]}\\{tpl}.json", encoding="utf-8"))
-    return data
+    return Item.get_info_for_tpl(tpl)
 
