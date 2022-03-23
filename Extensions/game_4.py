@@ -1,10 +1,12 @@
 """
 часть бота которая отвечает за обработку переходов по локациям и взамимодействие с нпс
 
+
 """
 
 import discord.ext
 from discord.ext import commands
+from discord.ext import tasks
 from discord import Button, ButtonStyle, SelectMenu, SelectOption
 
 import pprint
@@ -17,7 +19,11 @@ from files.scripts.locations import create_channel, Locations
 class GameCog3(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-
+        self.npc_engine.start()
+        
+    def cog_unload(self):
+        self.npc_engine.cancel()
+    
     @commands.Cog.listener()
     async def on_message(self, mess: discord.Message):
         pass
@@ -25,7 +31,7 @@ class GameCog3(commands.Cog):
     @commands.command(aliases=["перейти"])
     @rp_command
     async def go(self, ctx: discord.ext.commands.Context):
-        user = Player(ctx.author.id)
+        player = Player(ctx.author.id)
         location = Locations(ctx.channel.id)
         tree = location.get_tree_channels()
         print(tree, location.rp)
@@ -47,7 +53,7 @@ class GameCog3(commands.Cog):
         sm_list = select_menu.values
         print(sm_list)
         new_location = Locations(name=sm_list[0])
-        user.update("location", new_location.name)
+        player.update("location", new_location.name)
         embed = discord.Embed(title='You have chosen:',
                               description=f"You have chosen {new_location.name}",
                               color=discord.Color.random())
@@ -66,7 +72,11 @@ class GameCog3(commands.Cog):
         player = Player(ctx.author.id)
         r = await player.attack(opponent, shoot_type="2")
         print("attack r:", r)
-
+        
+    @tasks.loop(seconds=1.0)
+    async def npc_engine(self):
+        pass
+    
 
 
 def setup(bot):
