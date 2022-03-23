@@ -1,3 +1,6 @@
+from files.scripts.npc import NPC
+
+
 class Battle:
     battle_list = {}
     
@@ -14,8 +17,11 @@ class Battle:
         }
         
     async def run(self):
+        for npc_id in self["npc"]:
+            npc = NPC(npc_id)
+            npc.attack()
+            
         
-        pass
         
     def __getitem__(self, item):
         return self.battle_list[self.location][item]
