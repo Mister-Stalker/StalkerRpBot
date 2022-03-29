@@ -8,7 +8,7 @@ import discord.ext
 from discord.ext import commands
 from discord.ext import tasks
 from discord import Button, ButtonStyle, SelectMenu, SelectOption
-
+from files.scripts.battle import Battle
 import pprint
 from files.scripts.decorators import benchmark, rp_command, rp_command_ping
 import files.scripts.items as items
@@ -16,7 +16,7 @@ from files.scripts.item_classes import *
 from files.scripts.locations import create_channel, Locations
 
 
-class GameCog3(commands.Cog):
+class GameCog4(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
         self.npc_engine.start()
@@ -75,7 +75,10 @@ class GameCog3(commands.Cog):
         
     @tasks.loop(seconds=1.0)
     async def npc_engine(self):
-        pass
+        for loc_name in Battle.battle_list.keys():
+            battle = Battlle(loc_name)
+            battle.run()
+        
     
 
 
