@@ -125,7 +125,10 @@ class NPC(NPCBase):
         d = json.load(open(os.getcwd()+fr"files/configs/npc/npc/{name}.json"))
         return d
     
-    def attack(location):
+    def run(self):
+        pass
+    
+    def attack(self, location):
         pass
     
     def gun_damage(self, ammo, weapon_tpl, scope_arg):
